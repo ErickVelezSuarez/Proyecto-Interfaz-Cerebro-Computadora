@@ -18,13 +18,14 @@ except ImportError:
 
 DEFAULT_IP       = "192.168.4.1"
 DEFAULT_PORT     = 1234
-DEFAULT_DURATION = 300
+DEFAULT_DURATION = 600
 BUFFER_SIZE      = 4096
-OUTPUT_DIR       = "eeg_sessions"
+OUTPUT_DIR       = "Erick"  # Cambiar para nueva carpeta (Hombres, Mujeres)
 
+# Se elimina "raw" porque este MindFlex no envía la señal RAW EEG
 EXPECTED_COLUMNS = [
     "timestamp_ms", "signal_quality", "attention", "meditation",
-    "blink", "raw_mean",
+    "blink",
     "delta", "theta", "alpha_low", "alpha_high",
     "beta_low", "beta_high", "gamma_low", "gamma_mid"
 ]
@@ -42,7 +43,6 @@ def print_row(row, elapsed, total, count):
     sig = int(row.get("signal_quality", 200))
     att = int(row.get("attention", 0))
     med = int(row.get("meditation", 0))
-    raw = int(row.get("raw", 0))
 
     sig_color = Fore.GREEN if sig == 0 else (Fore.YELLOW if sig < 100 else Fore.RED)
     att_color = Fore.GREEN if att >= 50 else Fore.WHITE
@@ -58,8 +58,7 @@ def print_row(row, elapsed, total, count):
         f"{pct:5.1f}% | #{count:4d} | "
         f"SQ:{sig_color}{sig:3d}{Style.RESET_ALL} | "
         f"ATT:{att_color}{att:3d}{Style.RESET_ALL} | "
-        f"MED:{med_color}{med:3d}{Style.RESET_ALL} | "
-        f"RAW:{raw:6d}",
+        f"MED:{med_color}{med:3d}{Style.RESET_ALL}",
         end="", flush=True
     )
 
@@ -80,7 +79,7 @@ class MindflexReceiver:
         return os.path.join(self.output_dir, f"eeg_{stamp}.csv")
 
     def connect(self):
-        cprint(f"\nConectando a {self.ip}:{self.port} ...", Fore.YELLOW)
+        cprint(f"\n Conectando a {self.ip}:{self.port} ...", Fore.YELLOW)
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.settimeout(10)
@@ -209,10 +208,18 @@ def main():
                "   2. El ESP32 esté encendido y ejecutando el sketch\n"
                "   3. La IP sea 192.168.4.1", Fore.YELLOW)
         return
-    
+
     receiver.record()
     receiver.close()
     receiver.summary()
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
