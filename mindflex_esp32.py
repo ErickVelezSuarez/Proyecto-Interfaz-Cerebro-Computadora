@@ -20,7 +20,7 @@ DEFAULT_IP       = "192.168.4.1"
 DEFAULT_PORT     = 1234
 DEFAULT_DURATION = 600
 BUFFER_SIZE      = 4096
-OUTPUT_DIR       = "Erick"  # Cambiar para nueva carpeta (Hombres, Mujeres)
+OUTPUT_DIR       = "Egg_sessions"  # Cambiar para nueva carpeta (Hombres, Mujeres)
 
 # Se elimina "raw" porque este MindFlex no envía la señal RAW EEG
 EXPECTED_COLUMNS = [
